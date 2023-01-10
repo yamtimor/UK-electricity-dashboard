@@ -23,5 +23,11 @@ def get_data():
     df = pd.DataFrame.from_records(data['records'])
     return df
 
+def main():
+
+    app = Dash('Daily demand of electricity in the UK')
+
+
+
 if __name__ == "__main__":
-    print(get_data())
+    main()
