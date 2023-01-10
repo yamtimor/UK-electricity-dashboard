@@ -24,9 +24,31 @@ def get_data():
     return df
 
 def main():
-
+    df = get_data()
+    df = df[df['SETTLEMENT_DATE'] == '2022-12-01']
     app = Dash('Daily demand of electricity in the UK')
 
+    colors = {
+        'background': '#111111',
+        'text': '#7FDBFF'
+    }
+
+    fig = px.line(df, x="SETTLEMENT_PERIOD", y="TSD")
+
+    app.layout = html.Div(children=[
+        html.H1(children='TSD Demand'),
+
+        html.Div(children='''
+            TSD Demend in 2022-12-01
+        '''),
+
+        dcc.Graph(
+            id='first-graph',
+            figure=fig
+        )
+    ])
+
+    app.run_server(debug=True)
 
 
 if __name__ == "__main__":
