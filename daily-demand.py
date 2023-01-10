@@ -15,25 +15,31 @@ def get_data():
     try:
         resposne = requests.get('https://api.nationalgrideso.com/api/3/action/datastore_search_sql', params = parse.urlencode(params))
         data = resposne.json()["result"]
-        # print(data) # Printing data
+        print(data) # Printing data
     except requests.exceptions.RequestException as e:
         print(e.response.text)
-
 
     df = pd.DataFrame.from_records(data['records'])
     return df
 
+
+
+
 def main():
+
     df = get_data()
-    df = df[df['SETTLEMENT_DATE'] == '2022-12-01']
+
     app = Dash('Daily demand of electricity in the UK')
+
+    first_date = list(set(df['SETTLEMENT_DATE']))[0]
+    df = df[df['SETTLEMENT_DATE'] == first_date]
 
     colors = {
         'background': '#111111',
         'text': '#7FDBFF'
     }
 
-    fig = px.line(df, x="SETTLEMENT_PERIOD", y="TSD")
+    fig = px.line(df, x=df['SETTLEMENT_PERIOD'], y='TSD')
 
     app.layout = html.Div(children=[
         html.H1(children='TSD Demand'),
