@@ -1,1 +1,1 @@
-# Dashboard app
+# Generic Dashboard
