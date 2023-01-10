@@ -15,7 +15,7 @@ def get_data():
     try:
         resposne = requests.get('https://api.nationalgrideso.com/api/3/action/datastore_search_sql', params = parse.urlencode(params))
         data = resposne.json()["result"]
-        print(data) # Printing data
+        # print(data) # Printing data
     except requests.exceptions.RequestException as e:
         print(e.response.text)
 
@@ -27,19 +27,25 @@ def get_data():
 
 def main():
 
+    # data preparation
     df = get_data()
 
-    app = Dash('Daily demand of electricity in the UK')
-
     first_date = list(set(df['SETTLEMENT_DATE']))[0]
-    df = df[df['SETTLEMENT_DATE'] == first_date]
+
+
+    cols = ['SETTLEMENT_DATE', 'SETTLEMENT_PERIOD']
+    df['date_with_period'] = df[cols].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
+    # to convert period to half hours
+
+    # App
+    app = Dash('Daily demand of electricity in the UK')
 
     colors = {
         'background': '#111111',
         'text': '#7FDBFF'
     }
 
-    fig = px.line(df, x=df['SETTLEMENT_PERIOD'], y='TSD')
+    fig = px.line(df, x=df['date_with_period'], y='TSD')
 
     app.layout = html.Div(children=[
         html.H1(children='TSD Demand'),
