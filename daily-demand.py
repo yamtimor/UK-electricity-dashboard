@@ -64,6 +64,7 @@ def main():
     # Layouts
     tsd_by_date_with_period(app, df)
 
+
     app.run_server(debug=True)
 
 
