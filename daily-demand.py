@@ -22,24 +22,7 @@ def get_data():
     df = pd.DataFrame.from_records(data['records'])
     return df
 
-
-
-
-def main():
-
-    # data preparation
-    df = get_data()
-
-    first_date = list(set(df['SETTLEMENT_DATE']))[0]
-
-
-    cols = ['SETTLEMENT_DATE', 'SETTLEMENT_PERIOD']
-    df['date_with_period'] = df[cols].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
-    # to convert period to half hours
-
-    # App
-    app = Dash('Daily demand of electricity in the UK')
-
+def tsd_by_date_with_period(app, df):
     colors = {
         'background': '#111111',
         'text': '#7FDBFF'
@@ -59,6 +42,27 @@ def main():
             figure=fig
         )
     ])
+
+
+
+
+def main():
+
+    # data preparation
+    df = get_data()
+
+    first_date = list(set(df['SETTLEMENT_DATE']))[0]
+
+
+    cols = ['SETTLEMENT_DATE', 'SETTLEMENT_PERIOD']
+    df['date_with_period'] = df[cols].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
+    # to convert period to half hours
+
+    # App
+    app = Dash('Daily demand of electricity in the UK')
+
+    # Layouts
+    tsd_by_date_with_period(app, df)
 
     app.run_server(debug=True)
 
