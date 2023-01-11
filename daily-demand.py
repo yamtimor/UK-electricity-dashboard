@@ -24,21 +24,19 @@ def get_data():
 
 
 
-def tsd_by_date_with_period(app, df):
-
-    first_date = list(set(df['SETTLEMENT_DATE']))[0]
+def tsd_and_nd_by_date_with_period(app, df):
 
 
     cols = ['SETTLEMENT_DATE', 'SETTLEMENT_PERIOD']
     df['date_with_period'] = df[cols].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
-    # to convert period to half hours
+
 
     colors = {
         'background': '#111111',
         'text': '#7FDBFF'
     }
 
-    fig = px.line(df, x=df['date_with_period'], y='TSD')
+    fig = px.line(df, x=df['date_with_period'], y=['TSD','ND'])
 
     app.layout = html.Div(children=[
         html.H1(children='TSD Demand'),
@@ -66,7 +64,7 @@ def main():
     app = Dash('Daily demand of electricity in the UK')
 
     # Layouts
-    tsd_by_date_with_period(app, df)
+    tsd_and_nd_by_date_with_period(app, df)
 
 
     app.run_server(debug=True)
