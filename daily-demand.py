@@ -61,10 +61,10 @@ def plots(app, df):
             id='first-graph',
             figure=fig
         ),
-    html.Div([
-        html.H4(children='dataframe'),
-        generate_table(df)
-    ])
+        html.Div([
+            html.H4(children='dataframe'),
+            generate_table(df)
+        ])
     ])
 
 
