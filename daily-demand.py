@@ -41,10 +41,10 @@ def generate_table(df, max_rows=10):
 
 def plots(app, df):
 
+    # functionalize the first plot and add an argument here that will get fig as args or kwargs
 
     cols = ['SETTLEMENT_DATE', 'SETTLEMENT_PERIOD']
     df['date_with_period'] = df[cols].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
-
 
 
     fig = px.line(df, x=df['date_with_period'], y=['TSD','ND'])
