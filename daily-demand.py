@@ -24,7 +24,21 @@ def get_data():
 
 
 
-def tsd_and_nd_by_date_with_period(app, df):
+def generate_table(df, max_rows=10):
+    return html.Table([
+        html.Thead(
+            html.Tr([html.Th(col) for col in df.columns])
+        ),
+        html.Tbody([
+            html.Tr([
+                html.Td(df.iloc[i][col]) for col in df.columns
+            ]) for i in range(min(len(df), max_rows))
+        ])
+    ])
+
+
+
+def plots(app, df):
 
 
     cols = ['SETTLEMENT_DATE', 'SETTLEMENT_PERIOD']
@@ -38,6 +52,7 @@ def tsd_and_nd_by_date_with_period(app, df):
 
     fig = px.line(df, x=df['date_with_period'], y=['TSD','ND'])
 
+
     app.layout = html.Div(children=[
         html.H1(children='TSD Demand'),
 
@@ -48,10 +63,12 @@ def tsd_and_nd_by_date_with_period(app, df):
         dcc.Graph(
             id='first-graph',
             figure=fig
-        )
+        ),
+    html.Div([
+        html.H4(children='dataframe'),
+        generate_table(df)
     ])
-
-
+    ])
 
 
 def main():
@@ -64,8 +81,7 @@ def main():
     app = Dash('Daily demand of electricity in the UK')
 
     # Layouts
-    tsd_and_nd_by_date_with_period(app, df)
-
+    plots(app, df)
 
     app.run_server(debug=True)
 
