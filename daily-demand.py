@@ -46,10 +46,6 @@ def plots(app, df):
     df['date_with_period'] = df[cols].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
 
 
-    colors = {
-        'background': '#111111',
-        'text': '#7FDBFF'
-    }
 
     fig = px.line(df, x=df['date_with_period'], y=['TSD','ND'])
 
