@@ -25,6 +25,7 @@ def get_data():
 
 
 def generate_table(df, max_rows=10):
+    # fix generate_table visualization
     return html.Table([
         html.Thead(
             html.Tr([html.Th(col) for col in df.columns])
