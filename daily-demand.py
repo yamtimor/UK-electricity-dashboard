@@ -65,15 +65,15 @@ def plots(app, df):
         html.Div([
             html.H4(children='dataframe'),
             generate_table(df)
-    #     ]),
-    #     html.Div(children='''
-    #     TSD Demend in 2022-12-01
-    # '''),
-    #
-    #     dcc.Graph(
-    #         id='first-graph',
-    #         figure=fig_2
-    #     ),
+        ]),
+        html.Div(children='''
+        TSD Demend in 2022-12-01
+    '''),
+
+        dcc.Graph(
+            id='first-graph',
+            figure=fig_2
+        ),
     ])
 
 
