@@ -23,7 +23,7 @@ def get_data():
     return df
 
 def sum_dates(df):
-    return df[["SETTLEMENT_DATE","ND"]].groupby(['SETTLEMENT_DATE']).sum().reset_index
+    return df[["SETTLEMENT_DATE","ND"]].groupby(['SETTLEMENT_DATE']).sum().reset_index()
 
 def generate_table(df, max_rows=10):
     # fix generate_table visualization
@@ -49,7 +49,11 @@ def plots(app, df):
 
 
     fig_1 = px.line(df, x=df['date_with_period'], y=['TSD','ND'])
-    fig_2 = px.bar()
+
+
+    sum_dates = sum_dates(df)
+
+    fig_2 = px.bar(sum_dates, x = sum_dates['SETTLEMENT_DATE'],y = sum_dates['ND'])
 
     app.layout = html.Div(children=[
         html.H1(children='TSD Demand'),
