@@ -22,7 +22,8 @@ def get_data():
     df = pd.DataFrame.from_records(data['records'])
     return df
 
-
+def sum_dates(df):
+    return df[["SETTLEMENT_DATE","ND"]].groupby(['SETTLEMENT_DATE']).sum().reset_index
 
 def generate_table(df, max_rows=10):
     # fix generate_table visualization
@@ -47,8 +48,8 @@ def plots(app, df):
     df['date_with_period'] = df[cols].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
 
 
-    fig = px.line(df, x=df['date_with_period'], y=['TSD','ND'])
-
+    fig_1 = px.line(df, x=df['date_with_period'], y=['TSD','ND'])
+    fig_2 = px.bar()
 
     app.layout = html.Div(children=[
         html.H1(children='TSD Demand'),
@@ -59,12 +60,20 @@ def plots(app, df):
 
         dcc.Graph(
             id='first-graph',
-            figure=fig
+            figure=fig_1
         ),
         html.Div([
             html.H4(children='dataframe'),
             generate_table(df)
-        ])
+    #     ]),
+    #     html.Div(children='''
+    #     TSD Demend in 2022-12-01
+    # '''),
+    #
+    #     dcc.Graph(
+    #         id='first-graph',
+    #         figure=fig_2
+    #     ),
     ])
 
 
@@ -85,3 +94,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # print(sum_dates(get_data()))
