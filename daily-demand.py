@@ -50,10 +50,9 @@ def plots(app, df):
 
     fig_1 = px.line(df, x=df['date_with_period'], y=['TSD','ND'])
 
+    sum_dates_df = sum_dates(df)
 
-    sum_dates = sum_dates(df)
-
-    fig_2 = px.bar(sum_dates, x = sum_dates['SETTLEMENT_DATE'],y = sum_dates['ND'])
+    fig_2 = px.bar(sum_dates_df, x = sum_dates_df['SETTLEMENT_DATE'],y = sum_dates_df['ND'])
 
     app.layout = html.Div(children=[
         html.H1(children='TSD Demand'),
